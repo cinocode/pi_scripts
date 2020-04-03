@@ -1,0 +1,20 @@
+#!/bin/bash
+sudo apt-get install kodi kodi-peripheral-joystick kodi-pvr-iptvsimple kodi-inputstream-adaptive kodi-inputstream-rtmp kodi-vfs-libarchive kodi-vfs-nfs kodi-vfs-sftp
+sudo sh -c "echo 'start_x=1' >> /boot/config.txt"
+
+sudo tee -a /lib/systemd/system/pistarter.service <<_EOF_
+[Unit]
+Description = Cinocode Autosstart
+After = remote-fs.target network-online.target
+Wants = network-online.target
+
+[Service]
+User = pi
+Group = pi
+Type = simple
+ExecStart = /home/pi/pi_scripts/autostart
+
+[Install]
+WantedBy = multi-user.target
+_EOF_
+sudo systemctl enable pistarter.service
