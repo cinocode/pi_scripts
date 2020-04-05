@@ -1,0 +1,4 @@
+#!/bin/bash
+if ls ~/nas | grep -q movies_; then
+    curl --data-binary '{ "jsonrpc": "2.0", "method": "Addons.ExecuteAddon", "params": { "addonid": "script.trakt"}, "id": "mybash"}' -H 'content-type: application/json;' "http://kodi:kodi42@localhost:8080/jsonrpc"
+fi
