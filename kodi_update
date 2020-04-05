@@ -1,5 +1,4 @@
 #!/bin/bash
 if ls ~/nas | grep -q movies_; then
-    read -srp 'Password: ' passw
-    curl --data-binary '{ "jsonrpc": "2.0", "method": "VideoLibrary.Scan", "id": "mybash"}' -H 'content-type: application/json;' http://kodi:${passw}@localhost:8080/jsonrpc
+    curl --data-binary '{ "jsonrpc": "2.0", "method": "VideoLibrary.Scan", "id": "mybash"}' -H 'content-type: application/json;' "http://kodi:kodi42@localhost:8080/jsonrpc"
 fi

@@ -1,0 +1,23 @@
+#!/bin/bash
+SECOND_RUN=$1
+UPTIME_SEC="$(cat /proc/uptime | grep -o  '^[0-9]\+')"
+if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]] && [[ $UPTIME_SEC -lt "60" ]]; then
+	read -s -t 15 -n1 -p "Start kodi (1), none (0): " answer
+elif [[ $SECOND_RUN = '1' ]]; then
+	unset answer
+	read -s -t 15 -n1 -p "Start kodi (1), games (2), none (0): " answer
+else
+	exit 0
+fi
+
+if [[ $answer = '0' ]]; then
+	exit 0
+elif [[ $answer = '2' ]]; then
+	/home/pi/pi_scripts/mount_nas
+	emulationstation
+else
+	/home/pi/pi_scripts/mount_nas
+	/usr/bin/kodi-standalone
+fi
+
+/home/pi/pi_scripts/autostart 1

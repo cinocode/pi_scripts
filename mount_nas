@@ -1,0 +1,14 @@
+#!/bin/bash
+NAS_PATH=/home/pi/nas
+
+if ! whoami | grep -q 'root'; then
+	sudo /home/pi/pi_scripts/mount_nas
+fi
+
+if ls ${NAS_PATH} | grep -q 'movies_'; then
+	exit 0
+fi
+
+mkdir -p ${NAS_PATH}
+chown pi:pi ${NAS_PATH}
+mount -t cifs //192.168.1.193/media_001 ${NAS_PATH} -o credentials=/etc/samba/credentials/media,workgroup=WORKGROUP,uid=pi,vers=1.0,sec=ntlm

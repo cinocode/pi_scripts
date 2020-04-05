@@ -1,0 +1,5 @@
+#!/bin/bash
+touch ~/mopidy.log
+rm ~/mopidy.log
+touch ~/mopidy.log
+sudo mopidyctl local scan --limit 2000 | tee /home/pi/mopidy.log
