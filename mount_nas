@@ -2,7 +2,8 @@
 NAS_PATH=/home/pi/nas
 
 if ! whoami | grep -q 'root'; then
-	sudo /home/pi/pi_scripts/mount_nas
+	sudo /home/pi/pi_scripts/mount_nas || exit 1
+    exit 0
 fi
 
 if ls ${NAS_PATH} | grep -q 'movies_'; then

@@ -1,9 +1,13 @@
 #!/bin/bash
-/home/pi/pi_scripts/mount_nas || exit 1
-
 LOG_DIR=/home/pi/logs
 TIMEST=$(date -u +"%Y-%m-%d")
 LOG_FILE="${LOG_DIR}/mopidy-${TIMEST}.log"
 
 mkdir -p "${LOG_DIR}"
-sudo sh -c "mopidyctl local scan --limit 2000 | tee ${LOG_FILE}"
+
+if ! whoami | grep -q 'root'; then
+	sudo /home/pi/pi_scripts/mopidy_update || exit 1
+    exit 0
+fi
+
+mopidyctl local scan --limit 2000 | tee "${LOG_FILE}"
