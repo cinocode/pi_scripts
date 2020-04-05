@@ -1,6 +1,17 @@
 #!/bin/bash
 SECOND_RUN=$1
 UPTIME_SEC="$(cat /proc/uptime | grep -o  '^[0-9]\+')"
+STATE_FILE=/home/pi/state
+
+if [[ -f ${STATE_FILE} ]]; then
+    if cat ${STATE_FILE} | grep -q 'nightmode'; then
+        /home/pi/pi_scripts/nightly_run
+        exit 0
+    elif cat ${STATE_FILE} | grep -q 'morningmode'; then
+        /home/pi/pi_scripts/morning_run &
+    fi
+fi
+
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]] && [[ $UPTIME_SEC -lt "60" ]]; then
 	read -s -t 15 -n1 -p "Start kodi (1), games (2), reboot (5), none (0): " answer
 elif [[ $SECOND_RUN = '1' ]]; then

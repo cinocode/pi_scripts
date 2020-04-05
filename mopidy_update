@@ -2,8 +2,8 @@
 /home/pi/pi_scripts/mount_nas || exit 1
 
 LOG_DIR=/home/pi/logs
-TIMEST=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+TIMEST=$(date -u +"%Y-%m-%d")
 LOG_FILE="${LOG_DIR}/mopidy-${TIMEST}.log"
 
 mkdir -p "${LOG_DIR}"
-sudo mopidyctl local scan --limit 2000 | tee "${LOG_FILE}"
+sudo sh -c "mopidyctl local scan --limit 2000 | tee ${LOG_FILE}"

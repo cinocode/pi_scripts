@@ -1,0 +1,26 @@
+#!/bin/bash
+STATE_FILE=/home/pi/state
+LOG_DIR=/home/pi/logs
+TIMEST=$(date -u +"%Y-%m-%d")
+LOG_FILE="${LOG_DIR}/system-${TIMEST}.log"
+KODI_LOG_FILE="${LOG_DIR}/kodi-${TIMEST}.log"
+
+mkdir -p "${LOG_DIR}"
+
+
+if [[ ! -f ${STATE_FILE} ]]; then
+    echo "Starting nightly maintenance - rebooting" >> ${LOG_FILE}
+    echo 'nightmode' > ${STATE_FILE}
+    reboot
+else if cat ${STATE_FILE} | grep -q 'nightmode'; then
+    echo "Copying kodi log file" >> ${LOG_FILE}
+    cat /home/pi/.kodi/temp/kodi.log > "${KODI_LOG_FILE}"
+
+    echo "Deleting old log files" >> ${LOG_FILE}
+    find ${LOG_DIR} -type f -mtime +30 -exec rm -f {} \;
+
+    /home/pi/pi_scripts/mount_nas || (echo "Nas not mounted" >> ${LOG_FILE} && exit 1)
+
+    echo "Updating mopidy library" >> ${LOG_FILE}
+    /home/pi/pi_scripts/mopidy_update || (echo "Mopidy library update failed" >> ${LOG_FILE} && exit 1)
+fi

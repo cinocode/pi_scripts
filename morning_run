@@ -1,0 +1,23 @@
+#!/bin/bash
+STATE_FILE=/home/pi/state
+LOG_DIR=/home/pi/logs
+TIMEST=$(date -u +"%Y-%m-%d")
+LOG_FILE="${LOG_DIR}/system-${TIMEST}.log"
+
+mkdir -p "${LOG_DIR}"
+
+if cat ${STATE_FILE} | grep -q 'nightmode'; then
+    echo "Starting morning maintenance - rebooting" >> ${LOG_FILE}
+    echo 'morningmode' > ${STATE_FILE}
+    reboot
+else if cat ${STATE_FILE} | grep -q 'morningmode'; then
+    echo "Removing state file" >> ${LOG_FILE}
+    rm ${STATE_FILE}
+    sleep 60
+    /home/pi/pi_scripts/mount_nas || (echo "Nas not mounted" >> ${LOG_FILE} && exit 1)
+    echo "Cleaning kodi library" >> ${LOG_FILE}
+    /home/pi/pi_scripts/kodi_clean || (echo "Kodi clean failed" >> ${LOG_FILE} && exit 1)
+    sleep 90
+    echo "Updating kodi library" >> ${LOG_FILE}
+    /home/pi/pi_scripts/kodi_update || (echo "Kodi update failed" >> ${LOG_FILE} && exit 1)
+fi
