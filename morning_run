@@ -9,7 +9,7 @@ mkdir -p "${LOG_DIR}"
 if cat ${STATE_FILE} | grep -q 'nightmode'; then
     echo "Starting morning maintenance - rebooting" >> ${LOG_FILE}
     echo 'morningmode' > ${STATE_FILE}
-    /sbin/reboot
+    /home/pi/pi_scripts/sudo_rebooter
 elif cat ${STATE_FILE} | grep -q 'morningmode'; then
     echo "Removing state file" >> ${LOG_FILE}
     rm ${STATE_FILE}
