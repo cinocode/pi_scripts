@@ -3,32 +3,38 @@ SECOND_RUN=$1
 UPTIME_SEC="$(cat /proc/uptime | grep -o  '^[0-9]\+')"
 STATE_FILE=/home/pi/state
 
+if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]] && [[ $UPTIME_SEC -lt "60" ]]; then
+    AUTOSTART='true'
+elif [[ $SECOND_RUN = '1' ]]; then
+    unset answer
+    AUTOSTART='false'
+else
+    exit 0
+fi
+
 if [[ -f ${STATE_FILE} ]]; then
     if cat ${STATE_FILE} | grep -q 'nightmode'; then
         /home/pi/pi_scripts/nightly_run
-        exit 0
+        AUTOSTART='false'
     elif cat ${STATE_FILE} | grep -q 'morningmode'; then
         /home/pi/pi_scripts/morning_run &
     fi
 fi
 
-if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]] && [[ $UPTIME_SEC -lt "60" ]]; then
-	read -s -t 15 -n1 -p "Start kodi (1), games (2), reboot (5), none (0): " answer
+if [[ ${AUTOSTART} = 'true' ]]; then
+    read -s -t 10 -n1 -p "Start kodi (1), games (2), reboot (5), none (0): " answer
 elif [[ $SECOND_RUN = '1' ]]; then
-	unset answer
     read -s -n1 -p "Start kodi (1), games (2), reboot (5), none (0): " answer
-else
-	exit 0
 fi
 
 if [[ $answer = '0' ]]; then
-	exit 0
+    exit 0
 elif [[ $answer = '2' ]]; then
-	/home/pi/pi_scripts/mount_nas && emulationstation
+    /home/pi/pi_scripts/mount_nas && emulationstation
 elif [[ $answer = '5' ]]; then
     reboot
 else
-	/home/pi/pi_scripts/mount_nas && /usr/bin/kodi-standalone
+    /home/pi/pi_scripts/mount_nas && /usr/bin/kodi-standalone
 fi
 
 /home/pi/pi_scripts/autostart 1
