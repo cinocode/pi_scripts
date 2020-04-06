@@ -5,10 +5,9 @@ LOG_FILE="${LOG_DIR}/mopidy-${TIMEST}.log"
 
 if ! whoami | grep -q 'root'; then
     mkdir -p "${LOG_DIR}"
-    touch "${LOG_FILE}"
-    chmod 660 "${LOG_FILE}"
 	sudo /home/pi/pi_scripts/mopidy_update || exit 1
     exit 0
 fi
 
-mopidyctl local scan --limit 2000 >> "${LOG_FILE}"
+mop_output=$(mopidyctl local scan --limit 2000)
+echo ${mop_output} >> "${LOG_FILE}"
