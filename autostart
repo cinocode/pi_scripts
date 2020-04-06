@@ -23,7 +23,7 @@ fi
 
 if [[ ${AUTOSTART} = 'true' ]]; then
     read -s -t 10 -n1 -p "Start kodi (1), games (2), reboot (5), none (0): " answer
-elif [[ $SECOND_RUN = '1' ]]; then
+else
     read -s -n1 -p "Start kodi (1), games (2), reboot (5), none (0): " answer
 fi
 
