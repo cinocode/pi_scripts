@@ -20,7 +20,7 @@ elif cat ${STATE_FILE} | grep -q 'morningmode'; then
     sleep 90
     echo "Updating kodi library" >> ${LOG_FILE}
     /home/pi/pi_scripts/kodi_update || (echo "Kodi update failed" >> ${LOG_FILE} && exit 1)
-    sleep 150
-    echo "Updating trakt adon" >> ${LOG_FILE}
-    /home/pi/pi_scripts/kodi_trakt || (echo "Kodi trakt addon run failed" >> ${LOG_FILE} && exit 1)
+    # sleep 150
+    # echo "Updating trakt adon" >> ${LOG_FILE}
+    # /home/pi/pi_scripts/kodi_trakt || (echo "Kodi trakt addon run failed" >> ${LOG_FILE} && exit 1)
 fi
