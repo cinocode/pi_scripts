@@ -11,7 +11,7 @@ mkdir -p "${LOG_DIR}"
 if [[ ! -f ${STATE_FILE} ]]; then
     echo "Starting nightly maintenance - rebooting" >> ${LOG_FILE}
     echo 'nightmode' > ${STATE_FILE}
-    reboot
+    /sbin/reboot
 elif cat ${STATE_FILE} | grep -q 'nightmode'; then
     echo "Copying kodi log file" >> ${LOG_FILE}
     cat /home/pi/.kodi/temp/kodi.log > "${KODI_LOG_FILE}"
