@@ -5,3 +5,7 @@ sudo apt-get install tmux vim cifs-utils postfix
 echo 'export EDITOR=vim' >> ~/.bashrc
 sudo systemctl enable ssh
 sudo systemctl start ssh
+
+sudo sh -c "echo 'pi ALL = (root) NOPASSWD: /home/pi/pi_scripts/mount_nas' >> /etc/sudoers"
+sudo sh -c "echo 'pi ALL = (root) NOPASSWD: /home/pi/pi_scripts/mopidy_update' >> /etc/sudoers"
+sudo sh -c "echo 'pi ALL = (root) NOPASSWD: /home/pi/pi_scripts/sudo_rebooter' >> /etc/sudoers"
