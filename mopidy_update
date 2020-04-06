@@ -9,5 +9,5 @@ if ! whoami | grep -q 'root'; then
     exit 0
 fi
 
-mop_output=$(mopidyctl local scan --limit 2000)
-echo ${mop_output} >> "${LOG_FILE}"
+mopidyctl local scan --limit 2000
+journalctl -u mopidy >> ${LOG_FILE}
