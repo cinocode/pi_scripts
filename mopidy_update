@@ -10,4 +10,4 @@ if ! whoami | grep -q 'root'; then
     exit 0
 fi
 
-mopidyctl local scan --limit 2000 | tee "${LOG_FILE}"
+mopidyctl local scan --limit 2000 | tee -a "${LOG_FILE}"
