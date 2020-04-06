@@ -3,9 +3,10 @@ LOG_DIR=/home/pi/logs
 TIMEST=$(date -u +"%Y-%m-%d")
 LOG_FILE="${LOG_DIR}/mopidy-${TIMEST}.log"
 
-mkdir -p "${LOG_DIR}"
-
 if ! whoami | grep -q 'root'; then
+    mkdir -p "${LOG_DIR}"
+    touch "${LOG_FILE}"
+    chmod 660 "${LOG_FILE}"
 	sudo /home/pi/pi_scripts/mopidy_update || exit 1
     exit 0
 fi
