@@ -10,7 +10,7 @@ if cat ${STATE_FILE} | grep -q 'nightmode'; then
     echo "Starting morning maintenance - rebooting" >> ${LOG_FILE}
     echo 'morningmode' > ${STATE_FILE}
     reboot
-else if cat ${STATE_FILE} | grep -q 'morningmode'; then
+elif cat ${STATE_FILE} | grep -q 'morningmode'; then
     echo "Removing state file" >> ${LOG_FILE}
     rm ${STATE_FILE}
     sleep 60
