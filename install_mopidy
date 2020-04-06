@@ -4,3 +4,4 @@ sudo wget -q -O /etc/apt/sources.list.d/mopidy.list https://apt.mopidy.com/buste
 sudo apt update
 sudo apt install mopidy mopidy-local python3-pip
 sudo python3 -m pip install Mopidy-Iris
+sudo sh -c 'cat /home/pi/pi_scripts/mopidy.conf > /etc/mopidy/mopidy.conf'
