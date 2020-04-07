@@ -1,4 +1,8 @@
 #!/bin/bash
+AMOUNT=2000
+if [[ ${1} ]]; then
+    AMOUNT=${1}
+fi
 LOG_DIR=/home/pi/logs
 TIMEST=$(date -u +"%Y-%m-%d")
 LOG_FILE="${LOG_DIR}/mopidy-${TIMEST}.log"
@@ -9,5 +13,5 @@ if ! whoami | grep -q 'root'; then
     exit 0
 fi
 
-mopidyctl local scan --limit 2000
-journalctl -u mopidy >> ${LOG_FILE}
+mopidyctl local scan --limit "${AMOUNT}"
+journalctl -u mopidy >> "${LOG_FILE}"
