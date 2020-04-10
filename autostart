@@ -18,6 +18,9 @@ if [[ -f ${STATE_FILE} ]]; then
         AUTOSTART='false'
     elif cat ${STATE_FILE} | grep -q 'morningmode'; then
         /home/pi/pi_scripts/morning_run &
+    elif cat ${STATE_FILE} | grep -q 'block'; then
+        AUTOSTART='false'
+        rm ${STATE_FILE}
     fi
 fi
 
