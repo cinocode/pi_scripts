@@ -7,6 +7,11 @@ LOG_DIR=/home/pi/logs
 TIMEST=$(date -u +"%Y-%m-%d")
 LOG_FILE="${LOG_DIR}/mopidy-${TIMEST}.log"
 
+if ! ls /home/pi/nas | grep -q music; then
+    echo 'Nas not mounted'
+    exit 1
+fi
+
 if ! whoami | grep -q 'root'; then
     mkdir -p "${LOG_DIR}"
 	sudo /home/pi/pi_scripts/mopidy_update || exit 1
