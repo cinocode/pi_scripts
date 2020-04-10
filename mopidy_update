@@ -14,7 +14,7 @@ fi
 
 if ! whoami | grep -q 'root'; then
     mkdir -p "${LOG_DIR}"
-	sudo /home/pi/pi_scripts/mopidy_update || exit 1
+	sudo /home/pi/pi_scripts/mopidy_update ${AMOUNT} || exit 1
     exit 0
 fi
 
