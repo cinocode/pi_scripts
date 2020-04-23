@@ -1,2 +1,7 @@
 #!/bin/bash
-sudo sh -c 'curl -sSL https://install.pi-hole.net | bash'
+if ! which pihole; then
+    sudo sh -c 'curl -sSL https://install.pi-hole.net | bash'
+fi
+
+sudo sh -c 'cat /home/pi/pi_scripts/whitelist.txt > /etc/pihole/whitelist.txt'
+sudo sh -c 'pihole -g'
